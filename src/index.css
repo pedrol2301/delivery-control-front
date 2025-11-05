@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    border-color: rgb(229 231 235);
+  }
+
+  body {
+    background-color: rgb(249 250 251);
+    color: rgb(17 24 39);
+    min-height: 100vh;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* FullCalendar custom styles */
+.fc {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border-color: rgb(229 231 235);
+}
+
+.fc-theme-standard .fc-scrollgrid {
+  border-color: rgb(229 231 235);
+}
+
+.fc .fc-button-primary {
+  background-color: rgb(37 99 235);
+  border-color: rgb(37 99 235);
+}
+
+.fc .fc-button-primary:hover {
+  background-color: rgb(29 78 216);
+}
+
+.fc .fc-button-primary:not(:disabled):active,
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+  background-color: rgb(29 78 216);
+  border-color: rgb(29 78 216);
+}
+
+.fc-daygrid-event {
+  cursor: pointer;
+}
