@@ -42,6 +42,7 @@ export interface Deliverer {
   state?: string;
   zip_code?: string;
   is_active: boolean;
+  company?: Company;
   created_at: string;
   updated_at: string;
 }
@@ -102,6 +103,16 @@ export interface AuthResponse {
   user: User;
   access_token: string;
   token_type: string;
+  user_type?: string;
+}
+
+export interface DelivererAuthResponse {
+  message: string;
+  deliverer: Deliverer;
+  access_token: string;
+  token_type: string;
+  user_type: 'deliverer';
+  must_change_password: boolean;
 }
 
 export interface LoginRequest {

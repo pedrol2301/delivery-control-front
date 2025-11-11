@@ -92,12 +92,18 @@ export default function Login() {
             </button>
           </div>
 
-          <div className="text-center">
+          <div className="text-center space-y-2">
             <Link
               to="/register"
-              className="text-sm text-primary-600 hover:text-primary-500"
+              className="block text-sm text-primary-600 hover:text-primary-500"
             >
               Não tem conta? Cadastre-se
+            </Link>
+            <Link
+              to="/deliverer/login"
+              className="block text-sm text-gray-600 hover:text-gray-800"
+            >
+              É entregador? Faça login aqui
             </Link>
           </div>
         </form>
