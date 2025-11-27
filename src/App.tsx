@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Deliverers from './pages/Deliverers';
 import DelivererLogin from './pages/DelivererLogin';
 import DelivererDeliveries from './pages/DelivererDeliveries';
+import DelivererMap from './pages/DelivererMap';
 import ChangePassword from './pages/ChangePassword';
 
 function PrivateRoute({ children }: { children: React.ReactNode }) {
@@ -89,6 +90,14 @@ function AppRoutes() {
         element={
           <DelivererPrivateRoute>
             <DelivererDeliveries />
+          </DelivererPrivateRoute>
+        }
+      />
+      <Route
+        path="/deliverer/map"
+        element={
+          <DelivererPrivateRoute>
+            <DelivererMap />
           </DelivererPrivateRoute>
         }
       />

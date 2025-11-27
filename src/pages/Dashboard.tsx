@@ -4,7 +4,7 @@ import { deliveryService } from '../services/delivery.service';
 import { delivererService } from '../services/deliverer.service';
 import type { Delivery, Deliverer } from '../types';
 import Calendar from '../components/Calendar';
-import { LogOut, Plus, TrendingUp, Truck, Users, X } from 'lucide-react';
+import { LogOut, Plus, TrendingUp, Truck, Users, X, Edit } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Dashboard() {
@@ -33,6 +33,8 @@ export default function Dashboard() {
     delivery_fee: '',
     scheduled_date: '',
     notes: '',
+    latitude: '',
+    longitude: '',
   });
 
   useEffect(() => {
@@ -91,6 +93,8 @@ export default function Dashboard() {
       delivery_fee: '',
       scheduled_date: formattedDate,
       notes: '',
+      latitude: '',
+      longitude: '',
     });
     setEditingDelivery(null);
     setError('');
@@ -118,6 +122,8 @@ export default function Dashboard() {
       delivery_fee: '',
       scheduled_date: `${year}-${month}-${day}`,
       notes: '',
+      latitude: '',
+      longitude: '',
     });
     setEditingDelivery(null);
     setError('');
@@ -128,6 +134,31 @@ export default function Dashboard() {
     setShowFormModal(false);
     setEditingDelivery(null);
     setError('');
+  };
+
+  const handleEditDelivery = (delivery: Delivery) => {
+    setFormData({
+      deliverer_id: String(delivery.deliverer_id),
+      customer_name: delivery.customer_name,
+      customer_phone: delivery.customer_phone,
+      delivery_address: delivery.delivery_address,
+      delivery_city: delivery.delivery_city,
+      delivery_state: delivery.delivery_state,
+      delivery_zip_code: delivery.delivery_zip_code,
+      address_reference: delivery.address_reference || '',
+      order_number: delivery.order_number || '',
+      description: delivery.description || '',
+      value: delivery.value ? String(delivery.value) : '',
+      delivery_fee: delivery.delivery_fee ? String(delivery.delivery_fee) : '',
+      scheduled_date: delivery.scheduled_date,
+      notes: delivery.notes || '',
+      latitude: delivery.latitude ? String(delivery.latitude) : '',
+      longitude: delivery.longitude ? String(delivery.longitude) : '',
+    });
+    setEditingDelivery(delivery);
+    setError('');
+    setShowDetailModal(false);
+    setShowFormModal(true);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -151,6 +182,8 @@ export default function Dashboard() {
         delivery_fee: formData.delivery_fee ? Number(formData.delivery_fee) : undefined,
         scheduled_date: formData.scheduled_date,
         notes: formData.notes || undefined,
+        latitude: formData.latitude ? Number(formData.latitude) : undefined,
+        longitude: formData.longitude ? Number(formData.longitude) : undefined,
       };
 
       if (editingDelivery) {
@@ -364,6 +397,26 @@ export default function Dashboard() {
                     <p className="font-medium">{selectedDelivery.notes}</p>
                   </div>
                 )}
+
+                {(selectedDelivery.latitude || selectedDelivery.longitude) && (
+                  <div className="border-t pt-4 mt-4">
+                    <p className="text-sm text-gray-600 mb-2">Localização GPS</p>
+                    <div className="grid grid-cols-2 gap-4">
+                      {selectedDelivery.latitude && (
+                        <div>
+                          <p className="text-xs text-gray-500">Latitude</p>
+                          <p className="font-medium">{selectedDelivery.latitude}</p>
+                        </div>
+                      )}
+                      {selectedDelivery.longitude && (
+                        <div>
+                          <p className="text-xs text-gray-500">Longitude</p>
+                          <p className="font-medium">{selectedDelivery.longitude}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="mt-6 flex justify-end gap-3">
@@ -374,10 +427,11 @@ export default function Dashboard() {
                   Fechar
                 </button>
                 <button
-                  onClick={() => alert('Funcionalidade em desenvolvimento')}
-                  className="px-4 py-2 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-700"
+                  onClick={() => handleEditDelivery(selectedDelivery)}
+                  className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-md text-sm font-medium hover:bg-primary-700"
                 >
-                  Editar Status
+                  <Edit className="h-4 w-4 mr-2" />
+                  Editar
                 </button>
               </div>
             </div>
@@ -568,6 +622,44 @@ export default function Dashboard() {
                         }
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         placeholder="Próximo ao..."
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Localização GPS */}
+                <div className="pt-6 border-t">
+                  <h3 className="text-lg font-medium text-gray-900 mb-4">Localização GPS</h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Preencha as coordenadas GPS para que a entrega apareça no mapa. Você pode obter
+                    as coordenadas usando o Google Maps ou outro serviço de mapas.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Latitude
+                      </label>
+                      <input
+                        type="number"
+                        step="any"
+                        value={formData.latitude}
+                        onChange={(e) => setFormData({ ...formData, latitude: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        placeholder="-23.5505"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Longitude
+                      </label>
+                      <input
+                        type="number"
+                        step="any"
+                        value={formData.longitude}
+                        onChange={(e) => setFormData({ ...formData, longitude: e.target.value })}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        placeholder="-46.6333"
                       />
                     </div>
                   </div>

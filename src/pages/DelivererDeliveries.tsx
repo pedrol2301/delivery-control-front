@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { delivererDeliveryService } from '../services/deliverer-delivery.service';
 import type { Delivery } from '../types';
-import { LogOut, Package, MapPin, Calendar, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { LogOut, Package, MapPin, Calendar, CheckCircle, Clock, Map } from 'lucide-react';
 
 export default function DelivererDeliveries() {
+  const navigate = useNavigate();
   const { deliverer, logout } = useAuth();
   const [deliveries, setDeliveries] = useState<Delivery[]>([]);
   const [loading, setLoading] = useState(true);
@@ -109,13 +111,22 @@ export default function DelivererDeliveries() {
                 Bem-vindo, {deliverer?.name} | {deliverer?.company?.name}
               </p>
             </div>
-            <button
-              onClick={handleLogout}
-              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-            >
-              <LogOut className="h-4 w-4 mr-2" />
-              Sair
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={() => navigate('/deliverer/map')}
+                className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-md shadow-sm text-sm font-medium hover:bg-primary-700"
+              >
+                <Map className="h-4 w-4 mr-2" />
+                Ver Mapa
+              </button>
+              <button
+                onClick={handleLogout}
+                className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Sair
+              </button>
+            </div>
           </div>
         </div>
       </header>

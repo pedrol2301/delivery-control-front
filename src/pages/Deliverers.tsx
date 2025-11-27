@@ -101,7 +101,7 @@ export default function Deliverers() {
     setSubmitting(true);
 
     try {
-      const dataToSubmit = { ...formData };
+      const dataToSubmit: any = { ...formData };
 
       // Remove password field if editing and password is empty
       if (editingDeliverer && !formData.password) {
